@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title -->
+    <title>Shreya Patel — AI Persona | Chat with My Digital Twin</title>
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Chat with Shreya Patel's AI persona — a smart, warm, and thoughtful digital twin powered by AI. Ask anything, get real answers."
+    />
+    <meta
+      name="keywords"
+      content="Shreya Patel, AI Persona, Chat AI, Digital Twin, Personal AI, AI Chatbot"
+    />
+    <meta name="author" content="Shreya Patel" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph (for WhatsApp, Facebook, LinkedIn previews) -->
+    <meta property="og:title" content="Shreya Patel — AI Persona" />
+    <meta
+      property="og:description"
+      content="Chat with Shreya's AI — smart, warm, and always available."
+    />
+    <meta property="og:image" content="/static/user.png" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Shreya Patel — AI Persona" />
+    <meta
+      name="twitter:description"
+      content="Chat with Shreya's AI — smart, warm, and always available."
+    />
+    <meta name="twitter:image" content="/static/user.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/user.png" type="image/png" />
+    <!-- fonts  -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- bootstrap  -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- css style   -->
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <!-- ══════════════ WELCOME SCREEN ══════════════ -->
+    <div id="welcome-screen" class="screen">
+      <div class="top-bar">
+        <div class="bot-name">S H R E Y A</div>
+        <div>
+          <span class="status-dot"></span>
+          <span class="status-text">ONLINE</span>
+        </div>
+      </div>
+
+      <div class="welcome-hero">
+        <div class="avatar-ring">
+          <img src="/static/user.png" alt="Shreya" class="avatar-img" />
+        </div>
+        <div class="welcome-title">
+          Hello, I'm <span>Shreya</span><br />Your AI Companion
+        </div>
+        <div class="welcome-sub">
+          Ask me anything — I'm here to help, chat, and explore ideas with you.
+        </div>
+        <div class="suggestion-chips" id="welcome-chips">
+          <div class="chip" data-text="What's up?">👋 What's up?</div>
+          <div class="chip" data-text="Who are you?">🧠 Who are you?</div>
+          <div class="chip" data-text="Surprise me!">💡 Surprise me</div>
+          <div class="chip" data-text="What can you do?">
+            🚀 What can you do?
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-area welcome-input-area">
+        <div class="input-box">
+          <input
+            id="welcome-input"
+            type="text"
+            placeholder="Type a message to begin..."
+          />
+          <button class="send-btn" id="welcome-send-btn">&#10148;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ CHAT SCREEN ══════════════ -->
+    <div id="chat-screen" class="screen hidden">
+      <div class="chat-header">
+        <div class="chat-avatar">🤖</div>
+        <div class="chat-header-info">
+          <div class="name">S H R E Y A</div>
+          <div class="sub">● ONLINE · AI PERSONA</div>
+        </div>
+      </div>
+
+      <div class="messages-wrap" id="messages"></div>
+
+      <div class="chat-input-area">
+        <div class="chat-suggestions" id="chat-chips">
+          <div class="chip" data-text="What's up?">👋 What's up?</div>
+          <div class="chip" data-text="Tell me more">🧠 Tell me more</div>
+          <div class="chip" data-text="Give me an idea">💡 Give me an idea</div>
+        </div>
+        <div class="input-box">
+          <input id="msg-input" type="text" placeholder="Message Nexus..." />
+          <button class="send-btn" id="chat-send-btn">&#10148;</button>
+        </div>
+      </div>
+    </div>
+    <!-- bootstrap cdn  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- script  -->
+    <script src="/static/script.js"></script>
+  </body>
+</html>
