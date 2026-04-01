@@ -1,7 +1,3 @@
-/* ══════════════════════════════════════════
-   CHAT.JS  —  All chat interaction logic
-══════════════════════════════════════════ */
-
 (function () {
     'use strict';
 
@@ -17,7 +13,6 @@
 
     let chipsVisible = true;
 
-    // ── Click name to go back to welcome ──
     document.querySelector('.chat-header .name').addEventListener('click', () => {
         chatScreen.classList.add('hidden');
         welcomeScreen.classList.remove('hidden');
@@ -31,7 +26,6 @@
         msgInput.focus();
     }
 
-    // ── Chip click handlers ───────────────────
     function bindChips(containerEl) {
         containerEl.querySelectorAll('.chip').forEach(chip => {
             chip.addEventListener('click', () => {
@@ -47,7 +41,6 @@
     bindChips(document.getElementById('welcome-chips'));
     bindChips(chatChips);
 
-    // ── Welcome screen send ───────────────────
     function startChat() {
         const text = welcomeInput.value.trim();
         if (!text) return;
@@ -61,7 +54,6 @@
         if (e.key === 'Enter') startChat();
     });
 
-    // ── Chat screen send ──────────────────────
     function sendMessage() {
         const text = msgInput.value.trim();
         if (!text) return;
@@ -74,7 +66,7 @@
         if (e.key === 'Enter') sendMessage();
     });
 
-    // ── Core send + API call ──────────────────
+
     async function sendMessageText(text) {
         if (welcomeScreen.style.display !== 'none' &&
             !welcomeScreen.classList.contains('hidden')) {
@@ -94,6 +86,15 @@
             });
 
             const data = await response.json();
+            if (data.limit_reached) {
+                hideTyping();
+                appendMsg('ai', '⚠️ You\'ve reached the 5-message limit.');
+                msgInput.disabled = true;
+                chatSendBtn.disabled = true;
+                msgInput.placeholder = '🚫 Message limit reached';
+                scrollBottom();
+                return;
+            }
 
             // Parse persona JSON format: {"step":"result","content":"..."}
             let replyText = data.reply;

@@ -1,13 +1,15 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from dotenv import load_dotenv
 from openai import OpenAI
 from datetime import date
-
+import os
 load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 client = OpenAI()
 
+CHAT_LIMIT = 6
 
 SYSTEM_PROMPT = """ 
 You are the AI persona of Shreya Patel.
@@ -97,19 +99,29 @@ Focused on prompt design, system thinking, AI workflows, and real-world AI deplo
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ✏️ Projects (With Description)
+ai projects:
 
-1️⃣ AI-Integrated Chatbot Application  
-A conversational AI system built using API integration with large language models.  
-Designed structured prompts, handled dynamic user input, and implemented response processing logic.  
-Focused on improving output quality using system prompt engineering techniques.
+1️⃣CodeBuilder AI
+Technology : Python, Flask, AI API, GitHub, Render
+Generates project folder structure and files automatically
+Integrates AI API for code generation
+Supports editing commands for modifying generated code
+Automatically handles dependencies and project setup
+Provides live preview of generated applications
 
-2️⃣ Prompt-Engineered Conversational Systems  
-Built structured prompt frameworks to control tone, reasoning steps, and response accuracy.  
-Experimented with ChatML-style formatting and response constraints to improve reliability.
+2️⃣ AI Personal Persona Chatbot
+Technology : Python, Flask, AI API, GitHub, Render
+Generates dynamic persona responses based on prompts
+Simulates personality traits and behavior
+Supports interactive user conversations
+Uses AI API for natural language responses
+
+mern stack projects : 
 
 3️⃣ BlogNest (MERN Stack Blogging Platform)  
 A full-stack blogging platform with authentication and CRUD functionality.  
 Implemented REST APIs, user management, and structured database design using MongoDB.
+website link: https://blogpost-blogging.netlify.app/
 
 4️⃣ CrystalZone (E-commerce Frontend Application)  
 A responsive React-based ecommerce frontend.  
@@ -238,10 +250,21 @@ def home():
 
 @app.route("/chat", methods=["POST"])
 def chat():
+    #counter if not set
+    if "chat_count" not in session:
+        session["chat_count"] = 0
+
+    # Check limit
+    if session["chat_count"] >= CHAT_LIMIT:
+        return jsonify({
+            "reply": "⚠️ You've reached the 5-message limit for this session",
+            "limit_reached": True
+        })
+
     user_message = request.json["message"]
 
     try:
-        response = client.chat.completions.create(  
+        response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
@@ -251,7 +274,17 @@ def chat():
 
         reply = response.choices[0].message.content
 
-        return jsonify({"reply": reply})
+        # Increment counter after successful response
+        session["chat_count"] += 1
+        session.modified = True
+
+        remaining = CHAT_LIMIT - session["chat_count"]
+
+        return jsonify({
+            "reply": reply,
+            "remaining": remaining,
+            "limit_reached": remaining == 0
+        })
 
     except Exception as e:
         return jsonify({"reply": str(e)})
